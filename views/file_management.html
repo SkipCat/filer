@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Filer - Gestion</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/file.css">
+</head>
+<body>
+	<fieldset class="management">
+		<legend>
+			<h2>Gestion des fichiers</h2>
+		</legend>
+		<table class="management">
+			<tr>
+				<td class="see-all-files">
+					<h1>Voir tous les fichiers</h1>
+					<form method="POST" action="see_all_files.php">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+				<td class="upload">
+					<h1>Ajouter un fichier</h1>
+					<form method="POST" action="?action=upload">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+				<td class="rename">
+					<h1>Renommer un fichier</h1>
+					<form method="POST" action="file_rename.php">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td class="replace">
+					<h1>Remplacer un fichier</h1>
+					<form method="POST" action="file_replace.php">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+				<td class="delete">
+					<h1>Supprimer un fichier</h1>
+					<form method="POST" action="file_delete.php">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+				<td class="download">
+					<h1>Telecharger un fichier</h1>
+					<form method="POST" action="file_download.php">
+						<input type="submit" value="OK">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	<form method="POST" action="?action=logout">
+		<input type="submit" value="Déconnexion">
+	</form>
+</body>
+</html>

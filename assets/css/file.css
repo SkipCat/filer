@@ -1,0 +1,128 @@
+@font-face {
+	font-family: 'Bebas';
+	src: url('../fonts/Bebas.ttf');
+}
+
+body {
+	background-image: url('../img/background.jpg');
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.main {
+	display: flex;
+}
+
+.white-frame {
+	border: 1px solid white;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 40px 20px 20px; /* top right bottom left */
+}
+
+.upload {
+	margin-left: 25px;
+}
+
+h2 {
+	font-size: 32px;
+	color: crimson;
+	font-family: 'Bebas';
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+	color: black;
+}
+
+input {
+	font-size: 14px;
+	border: 1px solid white;
+	background-color: white;
+	border-radius: 2px;
+	padding: 3px;
+	margin: 15px 2px 0 2px; /* top right bottom left */
+}
+
+input[type="submit"], input[type="file"], .file-actions img {
+	cursor: pointer;
+}
+
+input[type="submit"] {
+	border: 2px solid crimson;
+}
+
+input[type="file"] {
+	border: 1px solid white;
+}
+
+h1 {
+	font-size: 20px;
+	font-family: 'Bebas';
+	color: white;
+}
+
+label, ol {
+	font-family: Calibri;
+	color: white;
+	font-size: 18px;
+}
+
+/*
+fieldset.management {
+	margin: 50px 350px 0 350px; /* top right bottom left */
+/*}
+
+.mangagement tr {
+	vertical-align: top;
+}
+
+.management td {
+	padding-bottom: 30px;
+}
+
+.last-input {
+	margin-bottom: 20px;
+}
+
+div.button {
+	display: flex;
+	justify-content: center;
+}
+*/
+
+input[value="Déconnexion"] {
+	text-transform: uppercase;
+	margin-top: 30px;
+	background-color: black;
+	border: 1px solid black;
+	font-style: bold;
+	color: white;
+}
+
+.list-files {
+	width: 500px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.file-actions {
+	display: flex;
+	width: 150px;
+	justify-content: space-between;
+}
+
+.file-actions img {
+	height: 25px;
+    width: auto;
+}

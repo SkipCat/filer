@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Filer - Remplacer</title>
+	<link rel="stylesheet" type="text/css" href="assets/file.css">
+</head>
+<body>
+	<fieldset>
+		<legend>
+			<h2>Remplacer un fichier</h2>
+		</legend>
+		<form method="POST" action="#"  enctype="multipart/form-data">
+			<input type="text" name="filename" placeholder="Nom du fichier">
+			<br><br>
+			<label>Remplacer par :</label>
+			<br>
+			<input type="file" name="newfile">
+			<br>
+			<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+			<input type="submit" value="Remplacer" class="last-input">
+		</form>
+	</fieldset>
+	<div class="button">
+		<form method="POST" action="logout.php">
+		<input type="submit" value="Déconnexion">
+		</form>
+		<form method="POST" action="file_management.php">
+			<input type="submit" value="Retour">
+		</form>
+	</div>
+</body>
+</html>

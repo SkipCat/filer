@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Filer - Télécharger</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/file.css">
+</head>
+<body>
+	<fieldset>
+		<legend>
+			<h2>Telecharger un fichier</h2>
+		</legend>
+		<form method="POST" action="?action=download">
+			<input type="text" name="filename" placeholder="Nom du fichier">
+			<input type="submit" value="Télécharger" class="last-input">
+		</form>
+	</fieldset>
+	<div class="button">
+		<form method="POST" action="?action=logout">
+			<input type="submit" value="Déconnexion">
+		</form>
+	</div>
+</body>
+</html>

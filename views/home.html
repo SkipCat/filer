@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Filer - Voir tout</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/file.css">
+</head>
+<body>
+	<div class="main">
+		<div class="white-frame">
+			<h2>Voir tous les fichiers</h2>
+			<div class="display-files">
+				<?php display_files(); ?>
+			</div>
+		</div>
+		<div class="upload">
+			<p>Ajouter un fichier</p>
+			<form method="POST" action="?action=upload" enctype="multipart/form-data">
+				<input type="hidden" name="MAX_FILE_SIZE" value="50000000"> <!-- 50Mo here, 100M in file php.ini -->
+				<input type="file" name="userfile">
+				<input type="submit" value="Ajouter" class="last-input">
+			</form>
+		</div>
+	</div>
+	<div class="button">
+		<form method="POST" action="?action=logout">
+			<input type="submit" value="Déconnexion">
+		</form>
+	</div>
+</body>
+</html>
