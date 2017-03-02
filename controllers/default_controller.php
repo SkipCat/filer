@@ -2,6 +2,7 @@
 
 require_once('model/user.php');
 require_once('model/file.php');
+require_once('model/log.php');
 
 function index_action() {
 	require('views/index.html');
@@ -11,6 +12,7 @@ function home_action() {
 	// display_files(); // called in home.html
 	require('views/home.html');
 }
+
 
 /*
 function check_connection() {

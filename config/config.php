@@ -8,7 +8,8 @@ $routes = [ // list of actions
 	'logout'	=> 'user',
 	'upload'	=> 'file',
 	'delete'	=> 'file',
-	'download'	=> 'file',
+	'rename'	=> 'file',
+	'replace'	=> 'file',
 ];
 
 $db = [ // db access

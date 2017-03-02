@@ -10,88 +10,122 @@ function file_check_upload($data) {
 	return true;
 }
 
-function get_file_by_files($data) {
-	$filename = $data['userfile']['name'];
-	$filepath = './uploads/' . $data['userfile']['name'];
-	$newname = $data['newfile']['name'];
-	$newpath = './uploads/' . $data['newfile']['name'];
-}
-
-function get_file_by_post($data) {
-	$filename = $data['filename'];
-	$filepath = './uploads/' . $filename;
-	$newname = $data['new-filename'];
-	$newpath = './uploads/' . $newname;
-}
-
-function get_filename() {
-
-}
-
-function file_check_permission($data) {
+function file_check_permission() {
+	$result = get_all_files($_SESSION['id']);
 	$_SESSION['id'] = get_session_id($_SESSION['username']);
-	$id_files = check_session_id($data['filename']);
 
-	if ($_SESSION['id'] !== $id_files) {
-		return false;
+	foreach ($result as $i) {
+		$id_files = check_session_id($i['filename']);
+
+		if ($_SESSION['id'] !== $id_files) {
+			return false;
+		}
+		return true;
 	}
-	return true;
 }
 
 function display_files() {
 	$result = get_all_files($_SESSION['id']);
-	$icon_delete = '<a href="?action=delete"><img src="assets/img/icon_delete.png"></a>';
-	$icon_rename = '<a href="?action=rename"><img src="assets/img/icon_rename.png"></a>';
-	$icon_replace = '<a href="?action=replace"><img src="assets/img/icon_replace.png"></a>';
-	$icon_download = '<a href="?action=download"><img src="assets/img/icon_download.png"></a><';
-	$div_actions = '<div class="file-actions">' . $icon_rename . $icon_replace . $icon_download . $icon_delete . '</div>';
 
-	echo '<ol>';
-	for ($i = 0; $i < count($result); $i ++) {
+	foreach ($result as $i) {
 		echo '<li>';
-		echo '<div class="list-files">' . $result[$i]['filename'] . $div_actions . '</div>';
+			echo '<div class="list-files">';
+				echo '<p>' . $i['filename'] . '</p>';
+				echo '<div class="container-rename-field">';
+					echo '<form method="POST" action="?action=rename">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Rename">' . '</form>';
+				echo '</div>';
+				echo '<div class="container-replace-field">';
+					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="file" name="filename">' . '<input type="submit" value="Replace">' . '</form>';
+				echo '</div>';
+				echo '<div class="file-actions">';
+					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename">' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace">' . '</a>';
+					echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png">' . '</a>';
+					echo '<a href="?action=delete">' . '<img src="assets/img/icon_delete.png">' . '</a>';
+				echo '</div>';
+			echo '</div>';
 		echo '</li>';
 	}
-	echo '</ol>';
 }
 
 function file_upload($data) {
 	$filename = $data['userfile']['name'];
-	$filepath = './uploads/' . $filename;
+	$filepath = 'uploads/' . $_SESSION['username'] . '/' . $filename;
+	$newname = $_POST['file-rename'];
+	$newpath = 'uploads/' . $_SESSION['username'] . '/' . $newname;
 
-	insert_file($_SESSION['id'], $filename, $filepath);
-    move_uploaded_file($data['userfile']['tmp_name'], $filepath);
-}
+	if (!empty($newname)) {
+		insert_file($_SESSION['id'], $newname, $newpath);
+    	move_uploaded_file($data['userfile']['tmp_name'], $filepath);
+	}
+	else {
+		insert_file($_SESSION['id'], $filename, $filepath);
+    	move_uploaded_file($data['userfile']['tmp_name'], $filepath);
+	}
 
-function file_download($data) {
-	// $filename = get_filename();
-	$filename = $data['filename'];
-	$file_url = './uploads/' . $filename;
-	header('Content-Type: application/octet-stream');
-	header('Content-Transfer-Encoding: binary');
-	header('Content-disposition: attachment; filename=' . basename($file_url) . '');
-	//header('Content-Disposition: attachment; filename=' . $file_url); // file saved by the browser
-	readfile($file_url);
-	echo $file_url;
-	echo "toto";
+/* MODIFY FILENAME BEFORE UPLOADING
+
+//Ici mettre le nom du dossier dans lequel va être uploadé la photo ainsi que son nom
+$filename = 'lol.txt';
+$filepath = 'uploads/' . $_SESSION['username'] . '/' . $filename;
+
+//Copy the file to some permanent location
+insert_file($_SESSION['id'], $filename, $filepath);
+move_uploaded_file($data['userfile']['tmp_name'], $filepath);
+
+if(move_uploaded_file($data['userfile']['tmp_name'], $filepath)) {
+	$remote_file = "images/"."nom_photo.jpg";
+	imagejpeg($image_source,$remote_file,87);
+	chmod($remote_file,0644);
+} 
+*/
 }
 
 function file_rename($data) {
-	get_file_by_post($data);
-	update_file($_SESSION['id']);
+	$filename = $data['input-filename'];
+	$filepath = 'uploads/' . $_SESSION['username'] . '/' . $filename;
+	$newname = $data['filename'];
+	$newpath = 'uploads/' . $_SESSION['username'] . '/' . $newname;
+
+	update_file($_SESSION['id'], $filename, $newname, $newpath);
 	rename($filepath, $newpath);
 }
 
 function file_replace($data) {
-	get_file_by_files($data);
-	update_file($_SESSION['id']);
-	unlink('./uploads/' . $filename);
-	move_uploaded_file($_FILES['newfile']['tmp_name'], $newpath);
+	$filename = $data['input-filename'];
+	$newname = $_FILES['filename']['name'];
+	$newpath = 'uploads/' . $_SESSION['username'] . '/' . $newname;
+
+	update_file($_SESSION['id'], $filename, $newname, $newpath);
+	unlink('uploads/' . $_SESSION['username'] . '/' . $filename);
+	move_uploaded_file($_FILES['filename']['tmp_name'], $newpath);
 }
 
-function file_delete($data) {
-	//$filename = get_filename();
-	$filename = $data['filename'];
+function file_delete() {
+	$result = get_all_files($_SESSION['id']);
+	foreach ($result as $i) {
+		$filename = $i['filename'];
+	}
 	delete_file($filename);
-	unlink('./uploads/' . $filename);
+	unlink('uploads/' . $_SESSION['username'] . '/' . $filename);
 }
+
+/*
+function rmAllDir($strDirectory){
+    $handle = opendir($strDirectory);
+    while(false !== ($entry = readdir($handle))){
+        if($entry != '.' && $entry != '..'){
+            if(is_dir($strDirectory.'/'.$entry)){
+                rmAllDir($strDirectory.'/'.$entry);
+            }
+            elseif(is_file($strDirectory.'/'.$entry)){
+                unlink($strDirectory.'/'.$entry);
+            }
+        }
+    }
+    rmdir($strDirectory.'/'.$entry);
+    closedir($handle);
+}
+
+rmAllDir($dossier);
+*/

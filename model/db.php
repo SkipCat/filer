@@ -54,7 +54,7 @@ function get_all_files($session_id) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
 	// $dbh = get_database();
 
-	$request = "SELECT filename FROM files /*ORDER BY filename*/ WHERE id_users = :id_users";
+	$request = "SELECT * FROM files /*ORDER BY filename*/ WHERE id_users = :id_users";
 	$statement = $dbh->prepare($request);
 	$statement->execute(['id_users' => $session_id]);
 	$result = $statement->fetchAll();
@@ -68,8 +68,7 @@ function check_session_id($filename) {
 
 	$request = "SELECT id_users FROM files WHERE filename = :filename";
 	$statement = $dbh->prepare($request);
-	$statement->execute(['filename' => $filename/*['name']*/]);
-	// var_export($filename);
+	$statement->execute(['filename' => $filename]);
 	$result = $statement->fetch();
 	$id_files = $result[0];
 
@@ -97,7 +96,7 @@ function insert_file($session_id, $filename, $filepath) {
     $statement->execute(['filename' => $filename,'filepath' => $filepath, 'id_users' => $session_id]);
 }
 
-function update_file($session_id) {
+function update_file($session_id, $filename, $newname, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
 	// $dbh = get_database();
 

@@ -15,22 +15,19 @@ body {
 	justify-content: space-around;
 }
 
-.main {
-	display: flex;
-}
-
 .white-frame {
 	border: 1px solid white;
 	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	padding: 0px 40px 20px 20px; /* top right bottom left */
 }
 
 .upload {
 	margin-left: 25px;
+	margin-bottom: 25px;
 }
 
 h2 {
@@ -51,7 +48,6 @@ input {
 	background-color: white;
 	border-radius: 2px;
 	padding: 3px;
-	margin: 15px 2px 0 2px; /* top right bottom left */
 }
 
 input[type="submit"], input[type="file"], .file-actions img {
@@ -64,6 +60,7 @@ input[type="submit"] {
 
 input[type="file"] {
 	border: 1px solid white;
+	color: black;
 }
 
 h1 {
@@ -78,42 +75,26 @@ label, ol {
 	font-size: 18px;
 }
 
-/*
-fieldset.management {
-	margin: 50px 350px 0 350px; /* top right bottom left */
-/*}
-
-.mangagement tr {
-	vertical-align: top;
-}
-
-.management td {
-	padding-bottom: 30px;
-}
-
-.last-input {
-	margin-bottom: 20px;
-}
-
-div.button {
-	display: flex;
-	justify-content: center;
-}
-*/
-
-input[value="Déconnexion"] {
+input[value="Déconnexion"], input[value="Rename"], input[value="Replace"] {
 	text-transform: uppercase;
-	margin-top: 30px;
 	background-color: black;
 	border: 1px solid black;
 	font-style: bold;
 	color: white;
 }
 
+input[value="Déconnexion"] {
+	margin-top: 30px;
+	width: 190px;
+	height: 50px;
+	font-size: 18px;
+}
+
 .list-files {
-	width: 500px;
+	width: 1000px;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .file-actions {
@@ -125,4 +106,14 @@ input[value="Déconnexion"] {
 .file-actions img {
 	height: 25px;
     width: auto;
+}
+
+.container-rename-field, .container-replace-field {
+	display: none;
+	margin-left: auto;
+	margin-right: 20px;
+}
+
+.input-hidden {
+	display: none;
 }

@@ -17,6 +17,8 @@ function user_check_register($data) {
 function user_register($data) {
 	insert_user($data['username'], $data['email'], $data['password']);
 	$_SESSION['id'] = get_session_id($data['username']);
+	$_SESSION['username'] = $data['username'];
+	mkdir('uploads/' . $_SESSION['username']);
 }
 
 function user_check_login($data) {

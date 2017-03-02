@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Filer - Renommer</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/file.css">
+</head>
+<body>
+	<fieldset>
+		<legend>
+			<h2>Renommer un fichier</h2>
+		</legend>
+		<form method="POST" action="?action=rename">
+			<input type="text" name="filename" placeholder="Nom du fichier">
+			<input type="text" name="new-filename" placeholder="Nouveau nom">
+			<br>
+			<input type="submit" value="Renommer" class="last-input">
+		</form>
+	</fieldset>
+	<div class="button">
+		<form method="POST" action="?action=logout">
+			<input type="submit" value="Déconnexion">
+		</form>
+	</div>
+</body>
+</html>
