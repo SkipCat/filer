@@ -87,7 +87,7 @@ li {
 	align-items: center;
 }
 
-input[value="Déconnexion"], input[value="Rename"], input[value="Replace"], input[value="Ajouter"] {
+input[value="Déconnexion"], input[value="Rename"], input[value="Replace"], input[value="Ajouter"], input[value="Modifier"] {
 	background-color: black;
 	border: 1px solid black;
 	font-style: bold;
@@ -103,7 +103,7 @@ input[value="Déconnexion"] {
 	border-radius: 3px;
 }
 
-input[value="Ajouter"], input[value="Rename"], input[value="Replace"] {
+input[value="Ajouter"], input[value="Rename"], input[value="Replace"], input[value="Modifier"] {
     padding: 7px;
 }
 
@@ -130,12 +130,17 @@ input[name="file-rename"], .list-files input[type="text"] {
     width: auto;
 }
 
-.container-rename-field, .container-replace-field, .container-delete-field {
+.container-rename-field, .container-replace-field, .container-delete-field, .container-modify-field {
 	display: none;
 	margin-left: auto;
 	margin-right: 20px;
 }
 
-.input-hidden {
-	display: none;
+.container-modify-field form {
+	display: flex;
+	align-items: top;
+}
+
+.container-modify-field textarea {
+	width: 500px;
 }

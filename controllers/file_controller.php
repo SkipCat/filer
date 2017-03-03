@@ -18,7 +18,7 @@ function upload_action() {
 		}
 		else {
 			write_log('security.log', 'Error upload transfert.');
-			echo "<p style='color:white;'>" . "Erreur lors du transfert : " . $_FILES['userfile']['error'] . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Erreur lors du transfert : Vous n'avez pas sélectionné de fichier, ou celui-ci est trop lourd." /*. $_FILES['userfile']['error']*/ . "</p>";
 		}
 	}
 	require('views/home.html');
@@ -34,7 +34,7 @@ function rename_action() {
 		}
 		else {
 			write_log('security.log', 'Error file access for rename action.');
-			echo "<p style='color:white;'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
 		}
 	}
 	require('views/home.html');
@@ -50,7 +50,7 @@ function replace_action() {
 		}
 		else {
 			write_log('security.log', 'Error file access for replace action.');
-			echo "<p style='color:white;'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
 		}
 	}
 	require('views/home.html');
@@ -65,11 +65,37 @@ function delete_action() {
 	}
 	else {
 		write_log('security.log', 'Error file access for delete action.');
-		echo "<p style='color:white;'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
+		echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
+	}
+	require('views/home.html');
+}
+
+function modify_action() {
+	if (file_check_permission()) {
+		file_modify($_POST);
+		write_log('access.log', 'File modified.');
+		//header('Location: ?action=home');
+		exit(0);
+	}
+	else {
+		write_log('security.log', 'Error file access for modify action.');
+		echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
 	}
 	require('views/home.html');
 }
 
 function move_action() {
-	
+	/*
+	if (file_check_permission()) {
+		file_move($_POST);
+		write_log('access.log', 'File moved.');
+		header('Location: ?action=home');
+		exit(0);
+	}
+	else {
+		write_log('security.log', 'Error file access for move action.');
+		echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
+	}
+	require('views/home.html');
+	*/
 }

@@ -33,16 +33,21 @@ function display_files() {
 				echo '<p>' . $i['filename'] . '</p>';
 
 				echo '<div class="container-rename-field">';
-					echo '<form method="POST" action="?action=rename">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Rename">' . '</form>';
+					echo '<form method="POST" action="?action=rename">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Rename">' . '</form>';
 				echo '</div>';
 
 				echo '<div class="container-replace-field">';
-					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="file" name="filename">' . '<input type="submit" value="Replace">' . '</form>';
+					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="file" name="filename">' . '<input type="submit" value="Replace">' . '</form>';
+				echo '</div>';
+
+				echo '<div class="container-modify-field">';
+					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<textarea name="content" placeholder="Ajouter du texte"></textarea>' . '<input type="submit" value="Modifier">' . '</form>';
 				echo '</div>';
 
 				echo '<div class="file-actions">';
 					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename">' . '</a>';
 					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace">' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify">' . '</a>';
 					echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png">' . '</a>';
 					echo '<a href="?action=delete">' . '<img src="assets/img/icon_delete.png">' . '</a>';
 				echo '</div>';
@@ -94,4 +99,20 @@ function file_delete($data) {
 	}
 	delete_file($filename);
 	unlink('uploads/' . $_SESSION['username'] . '/' . $filename);
+}
+
+function file_modify($file, $data) {
+	/*
+    $file_to_modify = fopen('logs/' . $file, 'r+'); // opens the file in reading and writing
+    //$log_info = $date . ' -> ' . $text . "\r\n";
+    fwrite($file_to_modify, $text['modification']); // by POST textarea
+    fgets ($file_to_modify, 255);
+    fclose($file_to_modify); // closes the current opened file
+    */
+	$filename = $data['input-filename'];
+	$filepath = 'uploads/' . $_SESSION['username'] . '/' . $filename;
+	$new_content = $data['content'];
+
+	$file = file_get_contents($filepath, $use_include_path = false, $context = null, $offset = 0, $maxlen); // filename/include_path/context/offset/maxlen
+	file_put_contents($file, $new_content, FILE_APPEND | LOCK_EX); // writes content in file behind existing content with FILE_APPEND flag
 }

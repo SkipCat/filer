@@ -8,7 +8,7 @@ function give_me_date() {
 
 function write_log($file, $text) {
     $date = give_me_date();
-    $file_log = fopen('logs/' . $file, 'a'); // opens the file
+    $file_log = fopen('logs/' . $file, 'a'); // opens the file ('a' -> single writing, file created if doesn't exist)
     $log_info = $date . ' -> ' . $text . "\r\n";
 
     fwrite($file_log, $log_info); // writes in the current opened file

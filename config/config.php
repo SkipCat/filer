@@ -10,6 +10,8 @@ $routes = [ // list of actions
 	'delete'	=> 'file',
 	'rename'	=> 'file',
 	'replace'	=> 'file',
+	'modify'	=> 'file',
+	/*'move'		=> 'file',*/
 ];
 
 $db = [ // db access
