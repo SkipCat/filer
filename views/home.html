@@ -2,26 +2,26 @@
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
-	<title>Filer - Voir tout</title>
+	<title>Filer | Accueil</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/file.css">
 	<script type="text/javascript" src="assets/script/script.js"></script>
 </head>
 <body>
 	<div class="upload">
-		<p>Ajouter un fichier</p>
+		<h3>Ajouter un fichier</h3>
 		<form method="POST" action="?action=upload" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="50000000"> <!-- 50Mo here, 100M in file php.ini -->
 			<input type="file" name="userfile">
 			<input type="text" name="file-rename" placeholder="Renommer">
-			<input type="submit" value="Ajouter" class="last-input">
+			<input type="submit" value="Ajouter">
 		</form>
 	</div>
 	<div class="white-frame">
 		<h2>Voir tous les fichiers</h2>
 		<div class="display-files">
-			<ol>
+			<ul>
 				<?php display_files(); ?>
-			</ol>
+			</ul>
 		</div>
 	</div>
 	<div class="button">

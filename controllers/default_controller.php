@@ -13,7 +13,6 @@ function home_action() {
 	require('views/home.html');
 }
 
-
 /*
 function check_connection() {
 	if (!empty($_SESSION['username'])) {

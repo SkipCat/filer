@@ -4,17 +4,15 @@ session_start();
 
 require('config/config.php');
 
-// redirection to home page or another one
 if (empty($_GET['action'])) {
-    $action = 'index'; 
+    $action = 'index'; // redirection to first page
 }
 else {
-	$action = $_GET['action']; // searchs action
+	$action = $_GET['action']; // ??
 }
 
-// redirection to another page
 if (isset($routes[$action])) {
-	require 'controllers/' . $routes[$action] . '_controller.php'; // includes the controller file linked to the page (link defined in config.php)
+	require 'controllers/' . $routes[$action] . '_controller.php'; // includes controller linked to the action (link in config.php)
 	call_user_func($action . '_action'); // calls a function without name (function in the linked controller file)
 }
 else {

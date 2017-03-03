@@ -31,12 +31,15 @@ function display_files() {
 		echo '<li>';
 			echo '<div class="list-files">';
 				echo '<p>' . $i['filename'] . '</p>';
+
 				echo '<div class="container-rename-field">';
 					echo '<form method="POST" action="?action=rename">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Rename">' . '</form>';
 				echo '</div>';
+
 				echo '<div class="container-replace-field">';
 					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="text" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="file" name="filename">' . '<input type="submit" value="Replace">' . '</form>';
 				echo '</div>';
+
 				echo '<div class="file-actions">';
 					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename">' . '</a>';
 					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace">' . '</a>';
@@ -62,23 +65,6 @@ function file_upload($data) {
 		insert_file($_SESSION['id'], $filename, $filepath);
     	move_uploaded_file($data['userfile']['tmp_name'], $filepath);
 	}
-
-/* MODIFY FILENAME BEFORE UPLOADING
-
-//Ici mettre le nom du dossier dans lequel va être uploadé la photo ainsi que son nom
-$filename = 'lol.txt';
-$filepath = 'uploads/' . $_SESSION['username'] . '/' . $filename;
-
-//Copy the file to some permanent location
-insert_file($_SESSION['id'], $filename, $filepath);
-move_uploaded_file($data['userfile']['tmp_name'], $filepath);
-
-if(move_uploaded_file($data['userfile']['tmp_name'], $filepath)) {
-	$remote_file = "images/"."nom_photo.jpg";
-	imagejpeg($image_source,$remote_file,87);
-	chmod($remote_file,0644);
-} 
-*/
 }
 
 function file_rename($data) {
@@ -101,7 +87,7 @@ function file_replace($data) {
 	move_uploaded_file($_FILES['filename']['tmp_name'], $newpath);
 }
 
-function file_delete() {
+function file_delete($data) {
 	$result = get_all_files($_SESSION['id']);
 	foreach ($result as $i) {
 		$filename = $i['filename'];
@@ -109,23 +95,3 @@ function file_delete() {
 	delete_file($filename);
 	unlink('uploads/' . $_SESSION['username'] . '/' . $filename);
 }
-
-/*
-function rmAllDir($strDirectory){
-    $handle = opendir($strDirectory);
-    while(false !== ($entry = readdir($handle))){
-        if($entry != '.' && $entry != '..'){
-            if(is_dir($strDirectory.'/'.$entry)){
-                rmAllDir($strDirectory.'/'.$entry);
-            }
-            elseif(is_file($strDirectory.'/'.$entry)){
-                unlink($strDirectory.'/'.$entry);
-            }
-        }
-    }
-    rmdir($strDirectory.'/'.$entry);
-    closedir($handle);
-}
-
-rmAllDir($dossier);
-*/

@@ -30,6 +30,13 @@ body {
 	margin-bottom: 25px;
 }
 
+h3 {
+	font-size: 20px;
+	color: crimson;
+	font-family: 'Bebas';
+
+}
+
 h2 {
 	font-size: 32px;
 	color: crimson;
@@ -69,14 +76,18 @@ h1 {
 	color: white;
 }
 
-label, ol {
+label, ul {
 	font-family: Calibri;
 	color: white;
 	font-size: 18px;
 }
 
-input[value="Déconnexion"], input[value="Rename"], input[value="Replace"] {
-	text-transform: uppercase;
+li {
+	display: flex;
+	align-items: center;
+}
+
+input[value="Déconnexion"], input[value="Rename"], input[value="Replace"], input[value="Ajouter"] {
 	background-color: black;
 	border: 1px solid black;
 	font-style: bold;
@@ -84,10 +95,21 @@ input[value="Déconnexion"], input[value="Rename"], input[value="Replace"] {
 }
 
 input[value="Déconnexion"] {
+	text-transform: uppercase;
 	margin-top: 30px;
 	width: 190px;
 	height: 50px;
 	font-size: 18px;
+	border-radius: 3px;
+}
+
+input[value="Ajouter"], input[value="Rename"], input[value="Replace"] {
+    padding: 7px;
+}
+
+input[name="file-rename"], .list-files input[type="text"] {
+	height: 22px;
+	padding-left: 8px;
 }
 
 .list-files {
@@ -108,7 +130,7 @@ input[value="Déconnexion"] {
     width: auto;
 }
 
-.container-rename-field, .container-replace-field {
+.container-rename-field, .container-replace-field, .container-delete-field {
 	display: none;
 	margin-left: auto;
 	margin-right: 20px;
