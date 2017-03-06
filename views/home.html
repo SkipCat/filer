@@ -18,11 +18,28 @@
 	</div>
 	<div class="white-frame">
 		<h2>Voir tous les fichiers</h2>
-		<div class="display-files">
+		<div class="create-folder">
+			<form method="POST" name='form-folder' action="?action=create_folder">
+				<input type="text" name="folder-name" placeholder="Nommer le dossier">
+				<input type="submit" value="Créer">
+			</form>	
+			<input type="submit" id="button-folder" value="Nouveau dossier">
+		</div>
+		<div class="display-home">
 			<ul>
+				<?php display_folders(); ?>
 				<?php display_files(); ?>
 			</ul>
 		</div>
+		<!--
+		<div class="display-inside-folder">
+			<ul>
+				<?php display_folders(); ?>
+				<?php display_files(); ?>
+			</ul>
+		</div>
+		<hr>
+		-->
 	</div>	
 	<div class="button">
 		<form method="POST" action="?action=logout">

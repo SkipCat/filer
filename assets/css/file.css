@@ -57,12 +57,8 @@ input {
 	padding: 3px;
 }
 
-input[type="submit"], input[type="file"], .file-actions img {
+input[type="submit"], input[type="file"], .file-actions img, .folder-actions img {
 	cursor: pointer;
-}
-
-input[type="submit"] {
-	border: 2px solid crimson;
 }
 
 input[type="file"] {
@@ -87,7 +83,9 @@ li {
 	align-items: center;
 }
 
-input[value="Déconnexion"], input[value="Rename"], input[value="Replace"], input[value="Ajouter"], input[value="Modifier"] {
+input[value="Déconnexion"], input[value="Renommer"], input[value="Remplacer"],
+input[value="Ajouter"], input[value="Modifier"], input[value="Créer"],
+input[value="Déplacer"], input[value="Oui"] {
 	background-color: black;
 	border: 1px solid black;
 	font-style: bold;
@@ -103,16 +101,30 @@ input[value="Déconnexion"] {
 	border-radius: 3px;
 }
 
-input[value="Ajouter"], input[value="Rename"], input[value="Replace"], input[value="Modifier"] {
+input[value="Ajouter"], input[value="Renommer"], input[value="Remplacer"],
+input[value="Modifier"], input[value="Créer"], input[value="Déplacer"],
+input[value="Oui"] {
     padding: 7px;
 }
 
-input[name="file-rename"], .list-files input[type="text"] {
+input[value="Oui"] {
+	height: 30px;
+}
+
+.upload input[type="text"], .list-files input[type="text"],
+.create-folder input[type="text"], .list-folders input[type="text"] {
 	height: 22px;
 	padding-left: 8px;
 }
 
-.list-files {
+input[value="Nouveau dossier"] {
+	background-color: white;
+	border: 1px solid white;
+	font-style: bold;
+	color: black;
+}
+
+.list-files, .list-folders {
 	width: 1000px;
 	display: flex;
 	justify-content: space-between;
@@ -121,16 +133,29 @@ input[name="file-rename"], .list-files input[type="text"] {
 
 .file-actions {
 	display: flex;
-	width: 150px;
+	width: 200px;
 	justify-content: space-between;
 }
 
-.file-actions img {
+.folder-actions {
+	display: flex;
+	width: 100px;
+	justify-content: space-between;
+}
+
+.file-actions img, .folder-actions img {
 	height: 25px;
     width: auto;
 }
 
-.container-rename-field, .container-replace-field, .container-delete-field, .container-modify-field {
+.container-delete-field form, .folder-delete-field form {
+	display: flex;
+	align-items: center;
+}
+
+.container-rename-field, .container-replace-field, .container-delete-field,
+.container-modify-field, .container-move-field, .folder-rename-field,
+.folder-delete-field, .folder-move-field {
 	display: none;
 	margin-left: auto;
 	margin-right: 20px;
@@ -143,4 +168,19 @@ input[name="file-rename"], .list-files input[type="text"] {
 
 .container-modify-field textarea {
 	width: 500px;
+}
+
+.create-folder form {
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.show-folder {
+	display: flex;
+}
+
+.show-folder img {
+	height: 40px;
+	width: 40px;
 }

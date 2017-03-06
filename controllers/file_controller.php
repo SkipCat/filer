@@ -18,7 +18,7 @@ function upload_action() {
 		}
 		else {
 			write_log('security.log', 'Error upload transfert.');
-			echo "<p style='color:white;font-family:Calibri'>" . "Erreur lors du transfert : Vous n'avez pas sélectionné de fichier, ou celui-ci est trop lourd." /*. $_FILES['userfile']['error']*/ . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Erreur" . $_FILES['userfile']['error'] . "lors du transfert : Vous n'avez pas sélectionné de fichier, ou celui-ci est trop lourd." . "</p>";
 		}
 	}
 	require('views/home.html');
@@ -74,7 +74,7 @@ function modify_action() {
 	if (file_check_permission()) {
 		file_modify($_POST);
 		write_log('access.log', 'File modified.');
-		//header('Location: ?action=home');
+		header('Location: ?action=home');
 		exit(0);
 	}
 	else {
@@ -85,7 +85,6 @@ function modify_action() {
 }
 
 function move_action() {
-	/*
 	if (file_check_permission()) {
 		file_move($_POST);
 		write_log('access.log', 'File moved.');
@@ -97,5 +96,4 @@ function move_action() {
 		echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
 	}
 	require('views/home.html');
-	*/
 }

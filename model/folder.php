@@ -2,6 +2,113 @@
 
 require_once('model/db.php');
 
+function display_folders() {
+    $folders = get_all_folders($_SESSION['id']);
+    
+    foreach ($folders as $i) {
+        echo '<li>';
+            echo '<div class="list-folders">';
+                echo '<div class="show-folder">';
+                    echo /*'<a action="?action=display_files">' . */'<img src="assets/img/folder.png" class="img-folder">'/* . '</a>'*/;
+                    echo '<p>' . $i['foldername'] . '</p>';
+                echo '</div>';
+
+                echo '<div class="folder-rename-field">';
+                    echo '<form method="POST" action="?action=rename_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<input type="text" name="folder-rename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
+                echo '</div>';
+                echo '<div class="folder-move-field">';
+                    echo '<form method="POST" action="?action=move_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
+                echo '</div>';
+                echo '<div class="folder-delete-field">';
+                    echo '<form method="POST" action="?action=delete_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
+                echo '</div>';
+
+                echo '<div class="folder-actions">';
+                    echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename-folder">' . '</a>';
+                    echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move-folder">' . '</a>';
+                    echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete-folder">' . '</a>';
+                echo '</div>';
+            echo '</div>';
+        echo '</li>';
+    }
+}
+
+function folder_check_permission() {
+    $result = get_all_folders($_SESSION['id']);
+    $_SESSION['id'] = get_session_id($_SESSION['username']);
+
+    foreach ($result as $i) {
+        $id_folder = check_session_id_folder($i['foldername']);
+
+        if ($_SESSION['id'] !== $id_folder) {
+            return false;
+        }
+        return true;
+    }
+}
+
+function folder_create() {
+    $foldername = $_POST['folder-name'];
+    $folderpath = 'uploads/' . $_SESSION['username'] . '/' . $foldername;
+
+    // create folder in db
+    insert_folder($_SESSION['id'], $foldername, $folderpath);
+    $folder = get_one_folder($foldername);
+    foreach ($folder as $value) {
+        $folder_id = $value['id'];
+    }
+    $newpath = 'uploads/' . $_SESSION['username'] . '/' . $folder_id;
+    update_folderpath($foldername, $newpath);
+
+    mkdir($newpath); // create folder in local (with id as foldername)
+}
+
+function folder_rename($data) {
+    $foldername = $data['input-foldername'];
+    $newname = $data['folder-rename'];
+    update_folder($foldername, $newname); // folder rename in db
+}
+
+function folder_delete($data) {
+    $folderpath = $data['input-folderpath'];
+    $files = get_all_files($_SESSION['id']);
+    $folder = get_one_folder($_SESSION['id']);
+
+    $inside_folder = scandir($folderpath);
+    if ($inside_folder === true) {
+        foreach ($inside_folder as $value) {
+            if (is_dir($value)) {
+                rmdir($value);
+            }
+            else {
+
+            }
+        }
+    }
+
+    rmdir($folderpath);
+}
+
+function folder_move($data) {
+    // get folder informations
+    $foldername = $data['input-foldername'];
+    $folderpath = $data['input-folderpath'];
+    $id_folder = get_folders_id_folders($foldername);
+
+    // get folder container informations
+    $new_folder = $data['new-folder'];
+    $directory = get_one_folder($new_folder);
+    foreach ($directory as $value) {
+        $dirpath = $value['folderpath'];
+        $dir_id = $value['id'];
+    }
+
+    $newpath = $dirpath . '/' . $foldername;
+    move_folder($dir_id, $foldername, $newpath); // 'move' folder in db (modify path)
+    rename($folderpath, $newpath); // move folder in local
+}
+
+
 /*
 function rmAllDir($strDirectory){
     $handle = opendir($strDirectory);

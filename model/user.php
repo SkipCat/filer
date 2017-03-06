@@ -19,6 +19,7 @@ function user_register($data) {
 	$_SESSION['id'] = get_session_id($data['username']);
 	$_SESSION['username'] = $data['username'];
 	mkdir('uploads/' . $_SESSION['username']);
+	mkdir('uploads/' . $_SESSION['username'] . '/New folder');
 }
 
 function user_check_login($data) {
