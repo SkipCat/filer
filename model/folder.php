@@ -20,7 +20,7 @@ function display_folders() {
                     echo '<form method="POST" action="?action=move_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
                 echo '</div>';
                 echo '<div class="folder-delete-field">';
-                    echo '<form method="POST" action="?action=delete_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
+                    echo '<form method="POST" action="?action=delete_folder">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
                 echo '</div>';
 
                 echo '<div class="folder-actions">';
@@ -69,43 +69,50 @@ function folder_rename($data) {
     update_folder($foldername, $newname); // folder rename in db
 }
 
+function directory_delete($dirpath) {
+	if (is_dir($dirpath)) {
+		$objects = scandir($dirpath);
+		foreach ($objects as $object) {
+			if ($object != '.' && $object != '..') {
+				if (filetype($dirpath . '/' . $object) == 'dir') { // or is_dir()
+					directory_delete($dirpath . '/' . $object); // recursivity
+				}
+				else {
+					delete_file($object);
+					unlink($dirpath . '/' . $object);
+				}
+			}
+		}
+		reset($objects); // set internal pointer of array 'objects' to its first element
+		rmdir($dirpath); // delete folder in local
+		delete_folder($dirpath); // delete folder in db
+	}
+}
 function folder_delete($data) {
     $folderpath = $data['input-folderpath'];
-    $files = get_all_files($_SESSION['id']);
-    $folder = get_one_folder($_SESSION['id']);
-
-    $inside_folder = scandir($folderpath);
-    if ($inside_folder === true) {
-        foreach ($inside_folder as $value) {
-            if (is_dir($value)) {
-                rmdir($value);
-            }
-            else {
-
-            }
-        }
-    }
-
-    rmdir($folderpath);
+    directory_delete($folderpath);
 }
 
 function folder_move($data) {
     // get folder informations
     $foldername = $data['input-foldername'];
     $folderpath = $data['input-folderpath'];
-    $id_folder = get_folders_id_folders($foldername);
 
     // get folder container informations
     $new_folder = $data['new-folder'];
     $directory = get_one_folder($new_folder);
+
     foreach ($directory as $value) {
         $dirpath = $value['folderpath'];
         $dir_id = $value['id'];
     }
 
-    $newpath = $dirpath . '/' . $foldername;
+    // move folder
+    $newpath = $dirpath . '/' . basename($folderpath);
     move_folder($dir_id, $foldername, $newpath); // 'move' folder in db (modify path)
     rename($folderpath, $newpath); // move folder in local
+
+    // move files and folders inside
 }
 
 

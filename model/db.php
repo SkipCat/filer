@@ -260,20 +260,20 @@ function update_folder($foldername, $newname) {
     $statement->execute(['newname' => $newname, 'foldername' => $foldername]);
 }
 
-function move_folder($foldername, $newpath) {
+function move_folder($id_folders, $foldername, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
 	// $dbh = get_database();
 
-	$request = "UPDATE folders SET folderpath = :newpath WHERE foldername = :foldername";
+	$request = "UPDATE folders SET id_folders = :id_folders, folderpath = :newpath WHERE foldername = :foldername";
     $statement = $dbh->prepare($request);
-    $statement->execute(['newpath' => $newpath, 'foldername' => $foldername]);
+    $statement->execute(['newpath' => $newpath, 'foldername' => $foldername, 'id_folders' => $id_folders]);
 }
 
-function delete_folder($foldername) {
+function delete_folder($folderpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
 	// $dbh = get_database();
 
-	$request = "DELETE FROM folders WHERE foldername = :foldername";
+	$request = "DELETE FROM folders WHERE folderpath = :folderpath";
 	$statement = $dbh->prepare($request);
-	$statement->execute(['foldername' => $foldername]);
+	$statement->execute(['folderpath' => $folderpath]);
 }

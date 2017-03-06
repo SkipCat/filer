@@ -38,16 +38,18 @@ function rename_folder_action() {
 }
 
 function move_folder_action() {
-	if (folder_check_permission()) {
-		folder_move($_POST);
-		write_log('access.log', 'Folder moved.');
-		header('Location: ?action=home');
-		exit(0);
-	}
-	else {
-		write_log('security.log', 'Error folder access for move action.');
-		echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce dossier" . "</p>";
-	}
+	// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if (folder_check_permission()) {
+			folder_move($_POST);
+			write_log('access.log', 'Folder moved.');
+			header('Location: ?action=home');
+			exit(0);
+		}
+		else {
+			write_log('security.log', 'Error folder access for move action.');
+			echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce dossier" . "</p>";
+		}
+	// }
 	require('views/home.html');
 }
 
