@@ -7,20 +7,22 @@
 	<script type="text/javascript" src="assets/script/script.js"></script>
 </head>
 <body>
-	<div class="upload">
-		<h3>Ajouter un fichier</h3>
-		<form method="POST" action="?action=upload" enctype="multipart/form-data">
-			<input type="hidden" name="MAX_FILE_SIZE" value="50000000"> <!-- 50Mo here, 100M in file php.ini -->
-			<input type="file" name="userfile">
-			<input type="text" name="file-rename" placeholder="Renommer">
-			<input type="submit" value="Ajouter">
-		</form>
-	</div>
+	<header>
+		<a href="?action=logout">
+			<img src="assets/img/logout.png" id="logout-icon" alt="logout-icon">
+		</a>
+		<div class="upload">
+			<h3>Ajouter un fichier</h3>
+			<form method="POST" action="?action=upload" enctype="multipart/form-data">
+				<input type="hidden" name="MAX_FILE_SIZE" value="100000000"> <!-- 50Mo here, 100M in file php.ini -->
+				<input type="file" name="userfile">
+				<input type="text" name="file-rename" placeholder="Renommer">
+				<input type="submit" value="Ajouter">
+			</form>
+		</div>
+	</header>
 	<div class="white-frame">
 		<h2>Voir tous les fichiers</h2>
-		<!--<?php if(!empty($error)): ?>
-			<?php echo $error; ?>
-		<?php endif; ?>-->
 		<div class="create-folder">
 			<form method="POST" name='form-folder' action="?action=create_folder">
 				<input type="text" name="folder-name" placeholder="Nommer le dossier">
@@ -29,25 +31,10 @@
 			<input type="submit" id="button-folder" value="Nouveau dossier">
 		</div>
 		<div class="display-home">
-			<ul>
-				<?php display_folders(); ?>
-				<?php display_files(); ?>
-			</ul>
+			<?php display_folders(); ?>
+			<hr>
+			<?php display_files(); ?>
 		</div>
-		<!--
-		<div class="display-inside-folder">
-			<ul>
-				<?php display_folders(); ?>
-				<?php display_files(); ?>
-			</ul>
-		</div>
-		<hr>
-		-->
 	</div>	
-	<div class="button">
-		<form method="POST" action="?action=logout">
-			<input type="submit" value="Déconnexion">
-		</form>
-	</div>
 </body>
 </html>

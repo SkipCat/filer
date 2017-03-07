@@ -12,17 +12,11 @@ function index_action() {
 function home_action() {
 	// display_folders(); // called in home.html
 	// display_files(); // called in home.html
-	require('views/home.html');
-}
-
-/*
-function check_connection() {
 	if (!empty($_SESSION['username'])) {
-        require('views/file.php');
+        require('views/home.html');
     }
     else {
         header('Location: ?action=index');
         exit(0);
     }
 }
-*/

@@ -3,30 +3,20 @@
 require_once('model/db.php');
 require_once('model/user.php'); 
 
-function file_check_upload($data) {
-	if ($data['userfile']['error'] > 0) { // if error value > 0 (0 = no error) then show it
-		return false;
+function prewiew_files($filepath) {
+	/*$filetype = mime_content_type($filepath);
+	if ($filetype == ) {
+
 	}
-	return true;
-}
-
-function file_check_permission() {
-	$result = get_all_files($_SESSION['id']);
-	$_SESSION['id'] = get_session_id($_SESSION['username']);
-
-	foreach ($result as $i) {
-		$id_files = check_session_id($i['filename']);
-
-		if ($_SESSION['id'] !== $id_files) {
-			return false;
-		}
-		return true;
-	}
+	else {
+		return 'application/octet-stream';
+	}*/
 }
 
 function display_files() {
 	$files = get_all_files($_SESSION['id']);
 
+	echo '<ul>';
 	foreach ($files as $i) {
 		echo '<li>';
 			echo '<div class="list-files">';
@@ -50,18 +40,40 @@ function display_files() {
 				echo '</div>';
 
 				echo '<div class="file-actions">';
-					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename">' . '</a>';
-					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace">' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename" alt="icon-to-rename">' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace" alt="icon-to-replace>' . '</a>';
 					if ($i['extension'] === 'text/plain') {
-						echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify">' . '</a>';
+						echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify>' . '</a>';
 					}
-					echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move">' . '</a>';
-					echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png">' . '</a>';
-					echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete">' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move" alt="icon-to-move>' . '</a>';
+					echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png" alt="icon-to-download>' . '</a>';
+					echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete" alt="icon-to-delete>' . '</a>';
 				echo '</div>';
 			echo '</div>';
 		echo '</li>';
 	}
+	echo '</ul>';
+}
+
+function file_check_permission() {
+	$result = get_all_files($_SESSION['id']);
+	$_SESSION['id'] = get_session_id($_SESSION['username']);
+
+	foreach ($result as $i) {
+		$id_files = check_session_id($i['filename']);
+
+		if ($_SESSION['id'] !== $id_files) {
+			return false;
+		}
+		return true;
+	}
+}
+
+function file_check_upload($data) {
+	if ($data['userfile']['error'] > 0) { // if error value > 0 (0 = no error) then show it
+		return false;
+	}
+	return true;
 }
 
 function file_upload($data) {
@@ -75,7 +87,7 @@ function file_upload($data) {
 	// check if file renamed
 	if (!empty($newname)) {
 		insert_file($_SESSION['id'], $newname, $extension, $newpath);
-    	move_uploaded_file($data['userfile']['tmp_name'], $filepath);
+    	move_uploaded_file($data['userfile']['tmp_name'], $newpath);
 	}
 	else {
 		insert_file($_SESSION['id'], $filename, $extension, $filepath);

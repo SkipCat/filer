@@ -5,23 +5,24 @@ require_once('model/db.php');
 function display_folders() {
     $folders = get_all_folders($_SESSION['id']);
     
+    echo '<ul>';
     foreach ($folders as $i) {
         echo '<li>';
             echo '<div class="list-folders">';
                 echo '<div class="show-folder">';
-                    echo '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder">' . '<p>' . $i['foldername'] . '</p>' . '</div>';
+                    echo '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder" alt="folder-icon">' . '<p>' . $i['foldername'] . '</p>' . '</div>';
                     echo '<ul>';
                     	$inside_folder = scandir($i['folderpath']);
                     	foreach ($inside_folder as $value) {
                     		if (filetype($i['folderpath'] . '/' . $value) == 'dir' && $value != '.' && $value != '..') {
                     			$folder = get_foldername($value);
-                    			echo '<li>' . '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder">' . '<p>' . $folder . '</p>' . '</div>' . '</li>';
+                    			echo '<li>' . '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder" alt="folder-icon">' . '<p>' . $folder . '</p>' . '</div>' . '</li>';
                     		}
                     		else if ($value != '.' && $value != '..') {
                     			echo '<li>' . $value . '</li>';
                     		}
                     	}
-                    echo '</ul>';
+                    echo '</ul>' . '<br>';
 
                 echo '</div>';
 
@@ -36,13 +37,14 @@ function display_folders() {
                 echo '</div>';
 
                 echo '<div class="folder-actions">';
-                    echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename-folder">' . '</a>';
-                    echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move-folder">' . '</a>';
-                    echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete-folder">' . '</a>';
+                    echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename-folder" alt="icon-to-rename">' . '</a>';
+                    echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move-folder" alt="icon-to-move">' . '</a>';
+                    echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete-folder" alt="icon-to-delete">' . '</a>';
                 echo '</div>';
             echo '</div>';
         echo '</li>';
     }
+    echo '</ul>';
 }
 
 function folder_check_permission() {

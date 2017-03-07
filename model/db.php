@@ -1,35 +1,35 @@
 <?php
 
-$dbh = null; // ?
+/*
+$dbh = null;
 
-function connect_to_database() {
-	global $db; // to reuse it in other functions
-	$dsn = 'mysql:host=' . $db['host'] . ';dbname=' . $db['name'];
-	$user = $db['user'];
-	$password = $db['password'];
+function connect_to_db() {
+	global $db_config;
+	$dsn = 'mysql:host=' . $db_config['host'] . ';dbname=' . $db_config['name'];
+	$user = $db_config['user'];
+	$password = $db_config['password'];
 
 	try {
 		$dbh = new PDO($dsn, $user, $password);
 	}
 	catch (PDOException $e) {
-		echo 'Connexion échouée : ' . $e->getMesssage(); // getMessage ?
+		echo 'Connexion échouée : ' . $e->getMesssage();
 	}
 }
-
-function get_database() {
-	global $dbh; // to reuse it in other functions
+function get_dbh() {
+	global $dbh;
 	if ($dbh === null) {
-		$dbh = connect_to_database();
+		$dbh = connect_to_db();
 	}
 	return $dbh;
 }
-
+*/
 
 // USERS
 
 function insert_user($username, $email, $password) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
+	//$dbh = get_dbh();
 
 	$request = "INSERT INTO `users`(`username`, `email`, `password`) VALUES (:username, :email, :password);";
 	$statement = $dbh->prepare($request);
@@ -129,7 +129,7 @@ function insert_file($session_id, $filename, $extension, $filepath) {
 
 function update_file($filename, $newname, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
+	//$dbh = get_dbh();
 
 	$request = "UPDATE files SET filename = :newname, filepath = :newpath WHERE filename = :filename";
     $statement = $dbh->prepare($request);

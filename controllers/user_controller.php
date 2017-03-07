@@ -7,7 +7,7 @@ function register_action() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (user_check_register($_POST)) {
 			user_register($_POST);
-			write_log('access.log', 'User registered.');
+			write_log_user('access.log', 'User registered.');
 			header('Location: ?action=home');
 			exit(0);
 		}
@@ -22,7 +22,7 @@ function login_action() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (user_check_login($_POST)) {
 			user_login($_POST);
-			write_log('access.log', 'User logged.');
+			write_log_user('access.log', 'User logged.');
 			header('Location: ?action=home');
 			exit(0);
 		}
@@ -34,8 +34,8 @@ function login_action() {
 }
 
 function logout_action() {
+	write_log_user('access.log', 'User logout.');
 	session_destroy();
-	write_log('access.log', 'User logout.');
 	header('Location: ?action=index');
 	exit(0);
 }

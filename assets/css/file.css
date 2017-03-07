@@ -15,6 +15,24 @@ body {
 	justify-content: space-around;
 }
 
+header {
+	width: 1100px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#logout-icon {
+	height: 50px;
+	width: auto;
+}
+
+.upload {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 25px;
+}
+
 .white-frame {
 	border: 1px solid white;
 	border-radius: 3px;
@@ -23,11 +41,6 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 0px 40px 20px 20px; /* top right bottom left */
-}
-
-.upload {
-	margin-left: 25px;
-	margin-bottom: 25px;
 }
 
 h3 {
@@ -88,7 +101,7 @@ li {
 	align-items: center;
 }
 
-input[value="Déconnexion"], input[value="Renommer"], input[value="Remplacer"],
+input[value="Nouveau dossier"], input[value="Renommer"], input[value="Remplacer"],
 input[value="Ajouter"], input[value="Modifier"], input[value="Créer"],
 input[value="Déplacer"], input[value="Oui"] {
 	background-color: black;
@@ -97,16 +110,15 @@ input[value="Déplacer"], input[value="Oui"] {
 	color: white;
 }
 
-input[value="Déconnexion"] {
+input[value="Nouveau dossier"] {
 	text-transform: uppercase;
-	margin-top: 30px;
-	width: 190px;
-	height: 50px;
-	font-size: 18px;
+	width: 150px;
+	height: 40px;
+	font-weight: bold;
 	border-radius: 3px;
 }
 
-input[value="Ajouter"], input[value="Renommer"], input[value="Remplacer"],
+input[value="Nouveau dossier"], input[value="Ajouter"], input[value="Renommer"], input[value="Remplacer"],
 input[value="Modifier"], input[value="Créer"], input[value="Déplacer"],
 input[value="Oui"] {
     padding: 7px;
@@ -122,17 +134,13 @@ input[value="Oui"] {
 	padding-left: 8px;
 }
 
-input[value="Nouveau dossier"] {
-	background-color: white;
-	border: 1px solid white;
-	font-style: bold;
-	color: black;
-}
-
 .list-files, .list-folders {
 	width: 1000px;
 	display: flex;
 	justify-content: space-between;
+}
+
+.list-files {
 	align-items: center;
 }
 

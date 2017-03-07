@@ -58,7 +58,7 @@ function move_folder_action() {
 			}
 		}
 		else {
-			write_log('security.log', 'No name to move folder for user' . $_SESSION['username']);
+			write_log('security.log', 'No name to move folder.');
 			echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom." . "</p>";
 		}
 	}
