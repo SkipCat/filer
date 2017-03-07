@@ -181,6 +181,32 @@ function get_one_folder($foldername) {
 	return $result;
 }
 
+function check_files_inside_folder($foldername) {
+	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
+	// $dbh = get_database();
+
+	$request = "SELECT * FROM files INNER JOIN folders ON 'files.id_folders' = 'folders.id' WHERE foldername = :foldername";
+	$statement = $dbh->prepare($request);
+	$statement->execute(['foldername' => $foldername]);
+	$result = $statement->fetchAll();
+	var_dump($result);
+	return $result;
+}
+
+/*
+function check_folders_inside_folder($foldername) {
+	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
+	// $dbh = get_database();
+
+	$request = "SELECT * FROM folders INNER JOIN folders ON files.id_folders = folders.id WHERE foldername = :foldername";
+	$statement = $dbh->prepare($request);
+	$statement->execute(['foldername' => $foldername]);
+	$result = $statement->fetchAll();
+
+	return $result;
+}
+*/
+
 function get_folderpath_by_name($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
 	// $dbh = get_database();
@@ -205,6 +231,19 @@ function get_folderpath($id_folders) {
 	$folderpath = $result[0];
 
 	return $folderpath;
+}
+
+function get_foldername($id) {
+	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
+	// $dbh = get_database();
+
+	$request = "SELECT foldername FROM folders WHERE id = :id";
+	$statement = $dbh->prepare($request);
+	$statement->execute(['id' => $id]);
+	$result = $statement->fetch();
+	$foldername = $result[0];
+
+	return $foldername;
 }
 
 function get_folders_id_folders($foldername) {

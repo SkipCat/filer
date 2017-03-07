@@ -49,6 +49,11 @@ a {
 	color: black;
 }
 
+p {
+	color: white;
+	font-family: Calibri;
+}
+
 input {
 	font-size: 14px;
 	border: 1px solid white;
@@ -178,9 +183,14 @@ input[value="Nouveau dossier"] {
 
 .show-folder {
 	display: flex;
+	flex-direction: column;
 }
 
 .show-folder img {
 	height: 40px;
 	width: 40px;
+}
+
+.folder {
+	display: flex;
 }

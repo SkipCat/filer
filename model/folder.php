@@ -9,8 +9,20 @@ function display_folders() {
         echo '<li>';
             echo '<div class="list-folders">';
                 echo '<div class="show-folder">';
-                    echo /*'<a action="?action=display_files">' . */'<img src="assets/img/folder.png" class="img-folder">'/* . '</a>'*/;
-                    echo '<p>' . $i['foldername'] . '</p>';
+                    echo '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder">' . '<p>' . $i['foldername'] . '</p>' . '</div>';
+                    echo '<ul>';
+                    	$inside_folder = scandir($i['folderpath']);
+                    	foreach ($inside_folder as $value) {
+                    		if (filetype($i['folderpath'] . '/' . $value) == 'dir' && $value != '.' && $value != '..') {
+                    			$folder = get_foldername($value);
+                    			echo '<li>' . '<div class="folder">' . '<img src="assets/img/folder.png" class="img-folder">' . '<p>' . $folder . '</p>' . '</div>' . '</li>';
+                    		}
+                    		else if ($value != '.' && $value != '..') {
+                    			echo '<li>' . $value . '</li>';
+                    		}
+                    	}
+                    echo '</ul>';
+
                 echo '</div>';
 
                 echo '<div class="folder-rename-field">';
@@ -93,6 +105,26 @@ function folder_delete($data) {
     directory_delete($folderpath);
 }
 
+/*
+function folder_move_inside() {
+	$objects = scandir($dirpath);
+	foreach ($objects as $object) {
+		if ($object != '.' && $object != '..') {
+			if (filetype($dirpath . '/' . $object) == 'dir') { // or is_dir()
+				directory_delete($dirpath . '/' . $object); // recursivity
+			}
+			else {
+				delete_file($object);
+				unlink($dirpath . '/' . $object);
+			}
+		}
+	}
+	reset($objects); // set internal pointer of array 'objects' to its first element
+	rmdir($dirpath); // delete folder in local
+	delete_folder($dirpath); // delete folder in db
+}
+*/
+
 function folder_move($data) {
     // get folder informations
     $foldername = $data['input-foldername'];
@@ -114,24 +146,3 @@ function folder_move($data) {
 
     // move files and folders inside
 }
-
-
-/*
-function rmAllDir($strDirectory){
-    $handle = opendir($strDirectory);
-    while(false !== ($entry = readdir($handle))){
-        if($entry != '.' && $entry != '..'){
-            if(is_dir($strDirectory.'/'.$entry)){
-                rmAllDir($strDirectory.'/'.$entry);
-            }
-            elseif(is_file($strDirectory.'/'.$entry)){
-                unlink($strDirectory.'/'.$entry);
-            }
-        }
-    }
-    rmdir($strDirectory.'/'.$entry);
-    closedir($handle);
-}
-
-rmAllDir($dossier);
-*/

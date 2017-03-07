@@ -39,7 +39,8 @@ function display_files() {
 					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="file" name="filename">' . '<input type="submit" value="Remplacer">' . '</form>';
 				echo '</div>';
 				echo '<div class="container-modify-field">';
-					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'" class="input-hidden">' . '<textarea name="content-modification" placeholder="Ajouter du texte"></textarea>' . '<input type="submit" value="Modifier">' . '</form>';
+					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'" class="input-hidden">' . '<textarea name="content-modification" placeholder="Ajouter du texte" value="'.file_get_contents($i['filepath'])
+.'">'.file_get_contents($i['filepath']).'</textarea>' . '<input type="submit" value="Modifier">' . '</form>';
 				echo '</div>';
 				echo '<div class="container-move-field">';
 					echo '<form method="POST" action="?action=move">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
@@ -138,8 +139,10 @@ function file_modify($data) {
 	$filepath = $data['input-filepath'];
 	$new_content = $data['content-modification'];
 
+	// file_get_content()
+	
 	// modify file in local
-	$file_to_modify = fopen($filepath, 'a'); // opens the file in single writing
+	$file_to_modify = fopen($filepath, 'w'); // opens the file in single writing
     fwrite($file_to_modify, "\r\n" . $new_content); // add content from input text
     fclose($file_to_modify); // closes current opened file
 
