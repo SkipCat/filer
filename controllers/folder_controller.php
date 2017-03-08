@@ -1,6 +1,6 @@
 <?php
 
-require_once('model/file.php');
+//require_once('model/file.php');
 require_once('model/log.php');
 require_once('model/folder.php');
 

@@ -41,6 +41,7 @@ window.onload = function() {
 	// FILE ACTIONS
 	for (var i = 0; i < iconRename.length; i ++) { // containerRename appears
 		iconRename[i].onclick = function() {
+			console.log(this.parentNode.parentNode.parentNode.childNodes[1]);
 			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'block';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none'; // containerReplace disappears
 			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none'; // containerModify disappears
@@ -51,6 +52,7 @@ window.onload = function() {
 	}
 	for (var i = 0; i < iconReplace.length; i ++) { // containerReplace appears
 		iconReplace[i].onclick = function() {
+			console.log(this.parentNode.parentNode.parentNode.childNodes[2]);
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'block'; 
 			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none';
@@ -60,6 +62,7 @@ window.onload = function() {
 	}
 	for (var i = 0; i < iconModify.length; i ++) { // containerReplace appears
 		iconModify[i].onclick = function() {
+			console.log(this.parentNode.parentNode.parentNode.childNodes[3]);
 			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'block'; 
 			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';
@@ -69,6 +72,7 @@ window.onload = function() {
 	}
 	for (var i = 0; i < iconMove.length; i ++) { // containerReplace appears
 		iconMove[i].onclick = function() {
+			console.log(this.parentNode.parentNode.parentNode.childNodes[4]);
 			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'block'; 
 			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';
@@ -78,6 +82,7 @@ window.onload = function() {
 	}
 	for (var i = 0; i < iconDelete.length; i ++) { // containerReplace appears
 		iconDelete[i].onclick = function() {
+			console.log(this.parentNode.parentNode.parentNode.childNodes[5]);
 			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'flex'; 
 			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';

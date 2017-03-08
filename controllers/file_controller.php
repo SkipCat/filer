@@ -6,11 +6,6 @@ require_once('model/log.php');
 function upload_action() {
 	if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		if (!empty($_FILES['userfile']['name'])) {
-			/*
-			if (preg_match('#[\x00-\x1F\x7F-\x9F/\\\\]#', $name_file)) {
-			    exit("Nom de fichier non valide");
-			}
-			*/
 			if (file_check_upload($_FILES)) {
 				file_upload($_FILES);
 				write_log_user('access.log', 'File ' . $_FILES['userfile']['name'] . ' uploaded.');

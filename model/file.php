@@ -3,56 +3,54 @@
 require_once('model/db.php');
 require_once('model/user.php'); 
 
+/*
 function prewiew_files($filepath) {
-	/*$filetype = mime_content_type($filepath);
+	$filetype = mime_content_type($filepath);
 	if ($filetype == ) {
 
 	}
 	else {
 		return 'application/octet-stream';
-	}*/
-}
+	}
+}*/
 
 function display_files() {
 	$files = get_all_files($_SESSION['id']);
 
-	echo '<ul>';
 	foreach ($files as $i) {
-		echo '<li>';
-			echo '<div class="list-files">';
-				echo '<p>' . $i['filename'] . '</p>';
+		echo '<div class="list-files">';
+			echo '<p>' . $i['filename'] . '</p>';
 
-				echo '<div class="container-rename-field">';
-					echo '<form method="POST" action="?action=rename">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
-				echo '</div>';
-				echo '<div class="container-replace-field">';
-					echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="file" name="filename">' . '<input type="submit" value="Remplacer">' . '</form>';
-				echo '</div>';
-				echo '<div class="container-modify-field">';
-					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'" class="input-hidden">' . '<textarea name="content-modification" placeholder="Ajouter du texte" value="'.file_get_contents($i['filepath'])
-.'">'.file_get_contents($i['filepath']).'</textarea>' . '<input type="submit" value="Modifier">' . '</form>';
-				echo '</div>';
-				echo '<div class="container-move-field">';
-					echo '<form method="POST" action="?action=move">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
-				echo '</div>';
-				echo '<div class="container-delete-field">';
-					echo '<form method="POST" action="?action=delete">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
-				echo '</div>';
-
-				echo '<div class="file-actions">';
-					echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename" alt="icon-to-rename">' . '</a>';
-					echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace" alt="icon-to-replace>' . '</a>';
-					if ($i['extension'] === 'text/plain') {
-						echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify>' . '</a>';
-					}
-					echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move" alt="icon-to-move>' . '</a>';
-					echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png" alt="icon-to-download>' . '</a>';
-					echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete" alt="icon-to-delete>' . '</a>';
-				echo '</div>';
+			echo '<div class="container-rename-field">';
+				echo '<form method="POST" action="?action=rename">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
 			echo '</div>';
-		echo '</li>';
+			echo '<div class="container-replace-field">';
+				echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="file" name="filename">' . '<input type="submit" value="Remplacer">' . '</form>';
+			echo '</div>';
+			if ($i['extension'] === 'text/plain') {
+				echo '<div class="container-modify-field">';
+					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'" class="input-hidden">' . '<textarea name="content-modification" placeholder="Ajouter du texte">'.file_get_contents($i['filepath']).'</textarea>' . '<input type="submit" value="Modifier">' . '</form>';
+				echo '</div>';
+			}
+			echo '<div class="container-move-field">';
+				echo '<form method="POST" action="?action=move">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
+			echo '</div>';
+			echo '<div class="container-delete-field">';
+				echo '<form method="POST" action="?action=delete">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
+			echo '</div>';
+
+			echo '<div class="file-actions">';
+				echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename" alt="icon-to-rename">' . '</a>';
+				echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace" alt="icon-to-replace">' . '</a>';
+				if ($i['extension'] === 'text/plain') {
+					echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify">' . '</a>';
+				}
+				echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move" alt="icon-to-move">' . '</a>';
+				echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png" alt="icon-to-download">' . '</a>';
+				echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete" alt="icon-to-delete">' . '</a>';
+			echo '</div>';
+		echo '</div>';
 	}
-	echo '</ul>';
 }
 
 function file_check_permission() {

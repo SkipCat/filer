@@ -90,7 +90,7 @@ h1 {
 	color: white;
 }
 
-label, ul {
+label, ul, .list-files {
 	font-family: Calibri;
 	color: white;
 	font-size: 18px;
@@ -141,6 +141,7 @@ input[value="Oui"] {
 }
 
 .list-files {
+	margin-left: 40px;
 	align-items: center;
 }
 
@@ -159,6 +160,7 @@ input[value="Oui"] {
 .file-actions img, .folder-actions img {
 	height: 25px;
     width: auto;
+    display: flex;
 }
 
 .container-delete-field form, .folder-delete-field form {
