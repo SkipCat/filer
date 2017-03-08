@@ -3,23 +3,34 @@
 require_once('model/db.php');
 require_once('model/user.php'); 
 
-/*
-function prewiew_files($filepath) {
+function preview_files($filepath) {
 	$filetype = mime_content_type($filepath);
-	if ($filetype == ) {
-
+	if ($filetype == 'image/png' || $filetype == 'image/jpeg' || $filetype == 'image/gif' || $filetype == 'image/bmp' || $filetype == 'image/svg+xml') {
+		return '<img src="'.$filepath.'" class="preview-img" alt="preview-img">';
+	}
+	else if ($filetype == 'text/plain') {
+		return '<img src="assets/img/txt-icon.png" alt="preview-text">';
+	}
+	else if ($filetype == 'application/pdf') {
+		return '<img src="assets/img/pdf-icon.png" alt="preview-pdf">';
+	}
+	else if ($filetype == 'audio/mpeg') {
+		return '<img src="assets/img/icon-mp3.png" alt="preview-mp3">';
+	}
+	else if ($filetype == 'video/3gpp' || $filetype == 'video/mp4') {
+		return '<img src="assets/img/icon-video.png" alt="preview-video">';
 	}
 	else {
 		return 'application/octet-stream';
 	}
-}*/
+}
 
 function display_files() {
 	$files = get_all_files($_SESSION['id']);
 
 	foreach ($files as $i) {
 		echo '<div class="list-files">';
-			echo '<p>' . $i['filename'] . '</p>';
+			echo '<div class="preview-file">'./*$preview*/$preview = preview_files($i['filepath']).'</div>' . '<p>' . $i['filename'] . '</p>';
 
 			echo '<div class="container-rename-field">';
 				echo '<form method="POST" action="?action=rename">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
@@ -39,12 +50,12 @@ function display_files() {
 				echo '<form method="POST" action="?action=delete">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
 			echo '</div>';
 
+			if ($i['extension'] === 'text/plain') {
+				echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify">' . '</a>';
+			}
 			echo '<div class="file-actions">';
 				echo '<a>' . '<img src="assets/img/icon_rename.png" class="icon-rename" alt="icon-to-rename">' . '</a>';
 				echo '<a>' . '<img src="assets/img/icon_replace.png" class="icon-replace" alt="icon-to-replace">' . '</a>';
-				if ($i['extension'] === 'text/plain') {
-					echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify">' . '</a>';
-				}
 				echo '<a>' . '<img src="assets/img/icon_folder.png" class="icon-move" alt="icon-to-move">' . '</a>';
 				echo '<a href="'.$i['filepath'].'" download="'.$i['filename'].'">' . '<img src="assets/img/icon_download.png" alt="icon-to-download">' . '</a>';
 				echo '<a>' . '<img src="assets/img/icon_delete.png" class="icon-delete" alt="icon-to-delete">' . '</a>';

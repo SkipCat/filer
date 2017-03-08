@@ -65,6 +65,7 @@ a {
 p {
 	color: white;
 	font-family: Calibri;
+	margin-right: auto;
 }
 
 input {
@@ -145,6 +146,12 @@ input[value="Oui"] {
 	align-items: center;
 }
 
+.preview-file img, .preview-img {
+	height: 40px;
+	width: auto;
+	margin-right: 10px;
+}
+
 .file-actions {
 	display: flex;
 	width: 200px;
@@ -157,10 +164,15 @@ input[value="Oui"] {
 	justify-content: space-between;
 }
 
-.file-actions img, .folder-actions img {
+.file-actions img, .folder-actions img, .icon-modify {
 	height: 25px;
     width: auto;
     display: flex;
+}
+
+.icon-modify {
+	margin-left: auto;
+	margin-right: 20px;
 }
 
 .container-delete-field form, .folder-delete-field form {
