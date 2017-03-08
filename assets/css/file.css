@@ -147,8 +147,19 @@ input[value="Oui"] {
 }
 
 .preview-file img, .preview-img {
-	height: 40px;
 	width: auto;
+	margin-right: 10px;
+}
+
+.preview-file .icon {
+	height: 40px;
+}
+
+.preview-img {
+	height: 75px;
+}
+
+.preview-file audio, .preview-file video {
 	margin-right: 10px;
 }
 

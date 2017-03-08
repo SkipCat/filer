@@ -12,6 +12,7 @@ window.onload = function() {
 	var buttonNewFolder = document.querySelector('#button-folder');
 	var formFolder = document.querySelector('.create-folder form');
 
+
 	// FOLDER ACTIONS
 	buttonNewFolder.onclick = function() {
 		formFolder.style.display = 'flex';
@@ -38,56 +39,62 @@ window.onload = function() {
 		};
 	}
 
-	// FILE ACTIONS
-	for (var i = 0; i < iconRename.length; i ++) { // containerRename appears
-		iconRename[i].onclick = function() {
-			console.log(this.parentNode.parentNode.parentNode.childNodes[1], this.parentNode.parentNode.parentNode.childNodes[2], this.parentNode.parentNode.parentNode.childNodes[3], this.parentNode.parentNode.parentNode.childNodes[4], this.parentNode.parentNode.parentNode.childNodes[5]);
-			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'block';
-			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none'; // containerReplace disappears
-			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none'; // containerModify disappears
-			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'none'; // containerMove disappears
-			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'none'; // containerDelete disappears
-
-		};
-	}
-	for (var i = 0; i < iconReplace.length; i ++) { // containerReplace appears
-		iconReplace[i].onclick = function() {
-			console.log(this.parentNode.parentNode.parentNode.childNodes[2]);
-			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'block'; 
-			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
-			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none';
-			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'none';
-			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'none';
-		};
-	}
-	for (var i = 0; i < iconModify.length; i ++) { // containerReplace appears
+	// FILES
+	for (var i = 0; i < iconModify.length; i ++) {
 		iconModify[i].onclick = function() {
-			console.log(this.parentNode.parentNode.childNodes[3]);
-			this.parentNode.parentNode.childNodes[3].style.display = 'block';
-			this.parentNode.parentNode.childNodes[1].style.display = 'none';
+			this.parentNode.parentNode.childNodes[6].style.display = 'block';
 			this.parentNode.parentNode.childNodes[2].style.display = 'none';
+			this.parentNode.parentNode.childNodes[3].style.display = 'none';
 			this.parentNode.parentNode.childNodes[4].style.display = 'none';
 			this.parentNode.parentNode.childNodes[5].style.display = 'none';
 		};
 	}
-	for (var i = 0; i < iconMove.length; i ++) { // containerReplace appears
+	for (var i = 0; i < iconRename.length; i ++) {
+		iconRename[i].onclick = function() {
+			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'block'; // container rename
+			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none'; // container replace
+			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'none'; // container move
+			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'none'; // container delete 
+
+			if (this.parentNode.parentNode.parentNode.childNodes[7] !== undefined) {
+				this.parentNode.parentNode.parentNode.childNodes[6].style.display = 'none';
+			}
+		};
+	}
+	for (var i = 0; i < iconReplace.length; i ++) {
+		iconReplace[i].onclick = function() {
+			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'block'; 
+			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';
+			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'none';
+			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'none';
+
+			if (this.parentNode.parentNode.parentNode.childNodes[7] !== undefined) {
+				this.parentNode.parentNode.parentNode.childNodes[6].style.display = 'none';
+			}
+		};
+	}
+	for (var i = 0; i < iconMove.length; i ++) {
 		iconMove[i].onclick = function() {
-			console.log(this.parentNode.parentNode.parentNode.childNodes[4]);
-			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'block'; 
-			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
+			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'block';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'none';
+
+			if (this.parentNode.parentNode.parentNode.childNodes[7] !== undefined) {
+				this.parentNode.parentNode.parentNode.childNodes[6].style.display = 'none';
+			}
 		};
 	}
-	for (var i = 0; i < iconDelete.length; i ++) { // containerReplace appears
+	for (var i = 0; i < iconDelete.length; i ++) {
 		iconDelete[i].onclick = function() {
-			console.log(this.parentNode.parentNode.parentNode.childNodes[5]);
-			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'flex'; 
-			this.parentNode.parentNode.parentNode.childNodes[1].style.display = 'none';
+			this.parentNode.parentNode.parentNode.childNodes[5].style.display = 'block';
 			this.parentNode.parentNode.parentNode.childNodes[2].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[3].style.display = 'none';
 			this.parentNode.parentNode.parentNode.childNodes[4].style.display = 'none';
+
+			if (this.parentNode.parentNode.parentNode.childNodes[7] !== undefined) {
+				this.parentNode.parentNode.parentNode.childNodes[6].style.display = 'none';
+			}
 		};
 	}
 };

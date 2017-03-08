@@ -111,7 +111,7 @@ function modify_action() {
 
 function move_action() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		if (!empty($_POST['new-folder'])) {
+		if (!empty($_POST['new-folder']) || !isset($_POST['new-folder'])) {
 			if (file_check_permission()) {
 				file_move($_POST);
 				write_log_user('access.log', 'File ' . $_POST['input-filename'] . ' moved.');
@@ -125,7 +125,7 @@ function move_action() {
 		}
 		else {
 			write_log_user('security.log', 'No folder to move file.');
-			echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom." . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom valide." . "</p>";
 		}
 	}
 	require('views/home.html');

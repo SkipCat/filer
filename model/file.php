@@ -5,20 +5,26 @@ require_once('model/user.php');
 
 function preview_files($filepath) {
 	$filetype = mime_content_type($filepath);
-	if ($filetype == 'image/png' || $filetype == 'image/jpeg' || $filetype == 'image/gif' || $filetype == 'image/bmp' || $filetype == 'image/svg+xml') {
+	
+	if ($filetype == 'image/png' || $filetype == 'image/jpeg' || $filetype == 'image/gif'
+		|| $filetype == 'image/bmp' || $filetype == 'image/svg+xml') {
 		return '<img src="'.$filepath.'" class="preview-img" alt="preview-img">';
 	}
 	else if ($filetype == 'text/plain') {
-		return '<img src="assets/img/txt-icon.png" alt="preview-text">';
+		return '<img src="assets/img/txt-icon.png" class="icon" alt="preview-text">';
 	}
 	else if ($filetype == 'application/pdf') {
-		return '<img src="assets/img/pdf-icon.png" alt="preview-pdf">';
+		return '<img src="assets/img/pdf-icon.png" class="icon" alt="preview-pdf">';
 	}
 	else if ($filetype == 'audio/mpeg') {
-		return '<img src="assets/img/icon-mp3.png" alt="preview-mp3">';
+		return '<audio controls>' . '<source src="'.$filepath.'" type="audio/mpeg" alt="preview-mp3">' . '</audio>';
 	}
 	else if ($filetype == 'video/3gpp' || $filetype == 'video/mp4') {
-		return '<img src="assets/img/icon-video.png" alt="preview-video">';
+		return '<video width="220" height="140" controls>' . '<source src="'.$filepath.'" type="video/mp4">' . '</video>';
+	}
+	else if ($filetype == 'application/zip' || $filetype == 'application/x-rar-compressed'
+		|| $filetype == 'application/x-msdownload') {
+		return '<img src="assets/img/icon-archive.png" class="icon" alt="preview-text">';
 	}
 	else {
 		return 'application/octet-stream';
@@ -27,28 +33,35 @@ function preview_files($filepath) {
 
 function display_files() {
 	$files = get_all_files($_SESSION['id']);
+	$folders = get_all_folders($_SESSION['id']);
 
 	foreach ($files as $i) {
 		echo '<div class="list-files">';
-			echo '<div class="preview-file">'./*$preview*/$preview = preview_files($i['filepath']).'</div>' . '<p>' . $i['filename'] . '</p>';
+			echo '<div class="preview-file">'.$preview = preview_files($i['filepath']).'</div>' . '<p>'.$i['filename'].'</p>';
 
-			echo '<div class="container-rename-field">';
+			echo '<div class="container-rename-field container-hidden">';
 				echo '<form method="POST" action="?action=rename">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="filename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
 			echo '</div>';
-			echo '<div class="container-replace-field">';
+			echo '<div class="container-replace-field container-hidden"">';
 				echo '<form method="POST" action="?action=replace" enctype="multipart/form-data">' . '<input type="hidden" name="MAX_FILE_SIZE" value="50000000">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="file" name="filename">' . '<input type="submit" value="Remplacer">' . '</form>';
 			echo '</div>';
+			echo '<div class="container-move-field container-hidden"">';
+				echo '<form method="POST" action="?action=move">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">';
+					echo '<select name="new-folder">';
+						foreach ($folders as $folder) {
+							echo '<option value="'.$folder['foldername'].'">' . $folder['foldername'] . '</option>';
+						}
+					echo  '</select>';
+				echo '<input type="submit" value="Déplacer">' . '</form>';
+			echo '</div>';
+			echo '<div class="container-delete-field container-hidden"">';
+				echo '<form method="POST" action="?action=delete">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
+			echo '</div>';
 			if ($i['extension'] === 'text/plain') {
-				echo '<div class="container-modify-field">';
+				echo '<div class="container-modify-field container-hidden"">';
 					echo '<form method="POST" action="?action=modify" name="form-modify">'. '<input type="hidden" name="input-filename" value="'.$i['filename'].'" class="input-hidden">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'" class="input-hidden">' . '<textarea name="content-modification" placeholder="Ajouter du texte">'.file_get_contents($i['filepath']).'</textarea>' . '<input type="submit" value="Modifier">' . '</form>';
 				echo '</div>';
 			}
-			echo '<div class="container-move-field">';
-				echo '<form method="POST" action="?action=move">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
-			echo '</div>';
-			echo '<div class="container-delete-field">';
-				echo '<form method="POST" action="?action=delete">' . '<input type="hidden" name="input-filename" value="'.$i['filename'].'">' . '<input type="hidden" name="input-filepath" value="'.$i['filepath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';
-			echo '</div>';
 
 			if ($i['extension'] === 'text/plain') {
 				echo '<a>' . '<img src="assets/img/icon_modify.png" class="icon-modify" alt="icon-to-modify">' . '</a>';
@@ -79,7 +92,7 @@ function file_check_permission() {
 }
 
 function file_check_upload($data) {
-	if ($data['userfile']['error'] > 0) { // if error value > 0 (0 = no error) then show it
+	if ($data['userfile']['error'] > 0) { // 0 = no error
 		return false;
 	}
 	return true;
@@ -140,9 +153,10 @@ function file_replace($data) {
 		$newpath = $folderpath . '/' . $newname;
 	}
 
-	update_file($filename, $newname, $newpath); // replace file in db
-	unlink($filepath); // delete oldfile in local
-	move_uploaded_file($_FILES['filename']['tmp_name'], $newpath); // add newfile in local
+	// replace file
+	update_file($filename, $newname, $newpath);
+	unlink($filepath);
+	move_uploaded_file($_FILES['filename']['tmp_name'], $newpath);
 }
 
 function file_delete($data) {
@@ -150,8 +164,9 @@ function file_delete($data) {
 	$filename = $data['input-filename'];
 	$filepath = $data['input-filepath'];
 
-	delete_file($filename); // delete file in db
-	unlink($filepath); // delete file in local
+	// delete file
+	delete_file($filename);
+	unlink($filepath);
 }
 
 function file_modify($data) {
@@ -159,13 +174,11 @@ function file_modify($data) {
 	$filename = $data['input-filename'];
 	$filepath = $data['input-filepath'];
 	$new_content = $data['content-modification'];
-
-	// file_get_content()
 	
 	// modify file in local
-	$file_to_modify = fopen($filepath, 'w'); // opens the file in single writing
-    fwrite($file_to_modify, "\r\n" . $new_content); // add content from input text
-    fclose($file_to_modify); // closes current opened file
+	$file_to_modify = fopen($filepath, 'w'); // pointer at the beginning
+    fwrite($file_to_modify, "\r\n" . $new_content);
+    fclose($file_to_modify);
 
     // modify file in db
     $newname = $data['input-filename'];
@@ -187,7 +200,8 @@ function file_move($data) {
 		$folder_id = $value['id'];
 	}
 
+	// move file
 	$newpath = $folderpath . '/' . $filename;
-	move_file($folder_id, $filename, $newpath); // 'move' file in db (modify path)
-	rename($filepath, $newpath); // move file in local
+	move_file($folder_id, $filename, $newpath);
+	rename($filepath, $newpath);
 }
