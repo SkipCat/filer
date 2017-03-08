@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 07 Mars 2017 à 23:52
+-- Généré le :  Mer 08 Mars 2017 à 22:47
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -34,6 +34,15 @@ CREATE TABLE `files` (
   `extension` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `filepath` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `files`
+--
+
+INSERT INTO `files` (`id`, `id_users`, `id_folders`, `filename`, `extension`, `filepath`) VALUES
+(169, 17, NULL, 'test.txt', 'text/plain', 'uploads/test/test.txt'),
+(170, 17, NULL, 'IMAG1056.jpg', 'image/jpeg', 'uploads/test/IMAG1056.jpg'),
+(171, 17, NULL, 'Imagine.mp3', 'audio/mp3', 'uploads/test/Imagine.mp3');
 
 -- --------------------------------------------------------
 
@@ -101,17 +110,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 --
 -- AUTO_INCREMENT pour la table `folders`
 --
 ALTER TABLE `folders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
