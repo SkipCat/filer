@@ -1,9 +1,7 @@
 <?php
 
-//require_once('model/file.php');
 require_once('model/log.php');
 require_once('model/folder.php');
-
 
 function create_folder_action() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {

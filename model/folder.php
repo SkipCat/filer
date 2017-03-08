@@ -30,7 +30,13 @@ function display_folders() {
                     echo '<form method="POST" action="?action=rename_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<input type="text" name="folder-rename" placeholder="Nouveau nom">' . '<input type="submit" value="Renommer">' . '</form>';
                 echo '</div>';
                 echo '<div class="folder-move-field">';
-                    echo '<form method="POST" action="?action=move_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<input type="text" name="new-folder" placeholder="Nom du dossier">' . '<input type="submit" value="Déplacer">' . '</form>';
+                    echo '<form method="POST" action="?action=move_folder">' . '<input type="hidden" name="input-foldername" value="'.$i['foldername'].'">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">';
+                    	echo '<select name="new-folder">';
+							foreach ($folders as $folder) {
+								echo '<option value="'.$folder['foldername'].'">' . $folder['foldername'] . '</option>';
+							}
+						echo  '</select>';
+					echo '<input type="submit" value="Déplacer">' . '</form>';
                 echo '</div>';
                 echo '<div class="folder-delete-field">';
                     echo '<form method="POST" action="?action=delete_folder">' . '<input type="hidden" name="input-folderpath" value="'.$i['folderpath'].'">' . '<p>Supprimer ?</p>' . '<input type="submit" value="Oui">' . '</form>';

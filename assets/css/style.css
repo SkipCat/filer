@@ -59,7 +59,7 @@ input[name="index"] {
 	color: white;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"] {
 	background-color: white;
 	color: black;
 	border-radius: 2px;
@@ -88,7 +88,7 @@ input[value="Inscription"], input[value="S'inscrire"], input[value="Se connecter
 	border: 2px solid black;
 }
 
-.register input[type="text"], .register input[type="password"],
+input[type="email"], .register input[type="text"], .register input[type="password"],
 .login input[type="text"], .login input[type="password"] {
 	margin-top: 10px;
 }
