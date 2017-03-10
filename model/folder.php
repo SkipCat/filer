@@ -74,12 +74,13 @@ function folder_create() {
     // create folder in db
     insert_folder($_SESSION['id'], $foldername, $folderpath);
     $folder = get_one_folder($foldername);
+    
     foreach ($folder as $value) {
         $folder_id = $value['id'];
     }
+
     $newpath = 'uploads/' . $_SESSION['username'] . '/' . $folder_id;
     update_folderpath($foldername, $newpath);
-
     mkdir($newpath); // create folder in local (with id as foldername)
 }
 
@@ -112,26 +113,6 @@ function folder_delete($data) {
     $folderpath = $data['input-folderpath'];
     directory_delete($folderpath);
 }
-
-/*
-function folder_move_inside() {
-	$objects = scandir($dirpath);
-	foreach ($objects as $object) {
-		if ($object != '.' && $object != '..') {
-			if (filetype($dirpath . '/' . $object) == 'dir') { // or is_dir()
-				directory_delete($dirpath . '/' . $object); // recursivity
-			}
-			else {
-				delete_file($object);
-				unlink($dirpath . '/' . $object);
-			}
-		}
-	}
-	reset($objects); // set internal pointer of array 'objects' to its first element
-	rmdir($dirpath); // delete folder in local
-	delete_folder($dirpath); // delete folder in db
-}
-*/
 
 function folder_move($data) {
     // get folder informations

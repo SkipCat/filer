@@ -43,7 +43,7 @@ function rename_action() {
 		else {
 			write_log_user('security.log', 'No name to rename file.');
 			$error = 'Choisissez un nom.';
-			//echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom." . "</p>";
+			echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom." . "</p>";
 		}
 	}
 	require('views/home.html');
@@ -88,7 +88,7 @@ function delete_action() {
 }
 
 function modify_action() {
-	if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (!empty($_POST['content-modification'])) {
 			if (file_check_permission()) {
 				file_modify($_POST);
@@ -111,21 +111,15 @@ function modify_action() {
 
 function move_action() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		if (!empty($_POST['new-folder']) || !isset($_POST['new-folder'])) {
-			if (file_check_permission()) {
-				file_move($_POST);
-				write_log_user('access.log', 'File ' . $_POST['input-filename'] . ' moved.');
-				header('Location: ?action=home');
-				exit(0);
-			}
-			else {
-				write_log_user('security.log', 'Error file access for move action.');
-				echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
-			}
+		if (file_check_permission()) {
+			file_move($_POST);
+			write_log_user('access.log', 'File ' . $_POST['input-filename'] . ' moved.');
+			header('Location: ?action=home');
+			exit(0);
 		}
 		else {
-			write_log_user('security.log', 'No folder to move file.');
-			echo "<p style='color:white;font-family:Calibri'>" . "Choisissez un nom valide." . "</p>";
+			write_log_user('security.log', 'Error file access for move action.');
+			echo "<p style='color:white;font-family:Calibri'>" . "Vous n'avez pas accès à ce fichier" . "</p>";
 		}
 	}
 	require('views/home.html');

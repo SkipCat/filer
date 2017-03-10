@@ -10,7 +10,7 @@ if (empty($_GET['action'])) {
     write_log('access.log', 'Index action.');
 }
 else {
-	$action = $_GET['action']; // ??
+	$action = $_GET['action'];
 	write_log('access.log', $action . ' action.');
 }
 

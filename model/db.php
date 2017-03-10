@@ -1,35 +1,9 @@
 <?php
 
-/*
-$dbh = null;
-
-function connect_to_db() {
-	global $db_config;
-	$dsn = 'mysql:host=' . $db_config['host'] . ';dbname=' . $db_config['name'];
-	$user = $db_config['user'];
-	$password = $db_config['password'];
-
-	try {
-		$dbh = new PDO($dsn, $user, $password);
-	}
-	catch (PDOException $e) {
-		echo 'Connexion échouée : ' . $e->getMesssage();
-	}
-}
-function get_dbh() {
-	global $dbh;
-	if ($dbh === null) {
-		$dbh = connect_to_db();
-	}
-	return $dbh;
-}
-*/
-
 // USERS
 
 function insert_user($username, $email, $password) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	//$dbh = get_dbh();
 
 	$request = "INSERT INTO `users`(`username`, `email`, `password`) VALUES (:username, :email, :password);";
 	$statement = $dbh->prepare($request);
@@ -42,7 +16,6 @@ function insert_user($username, $email, $password) {
 
 function get_password($username) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT password FROM users WHERE username = :username";
 	$statement = $dbh->prepare($request);
@@ -54,7 +27,6 @@ function get_password($username) {
 
 function get_session_id($username) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT id FROM users WHERE username = :username";
 	$statement = $dbh->prepare($request);
@@ -70,7 +42,6 @@ function get_session_id($username) {
 
 function get_all_files($session_id) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT * FROM files WHERE id_users = :id_users";
 	$statement = $dbh->prepare($request);
@@ -82,7 +53,6 @@ function get_all_files($session_id) {
 
 function get_one_file($filename) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT * FROM files WHERE filename = :filename";
 	$statement = $dbh->prepare($request);
@@ -94,7 +64,6 @@ function get_one_file($filename) {
 
 function get_files_id_folders($filename) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT id_folders FROM files WHERE filename = :filename";
 	$statement = $dbh->prepare($request);
@@ -107,7 +76,6 @@ function get_files_id_folders($filename) {
 
 function check_session_id($filename) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT id_users FROM files WHERE filename = :filename";
 	$statement = $dbh->prepare($request);
@@ -120,7 +88,6 @@ function check_session_id($filename) {
 
 function insert_file($session_id, $filename, $extension, $filepath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "INSERT INTO `files`(`filename`, `extension`, `filepath`, `id_users`, `id_folders`) VALUES (:filename, :extension, :filepath, :id_users, :id_folders);";
 	$statement = $dbh->prepare($request);
@@ -129,7 +96,6 @@ function insert_file($session_id, $filename, $extension, $filepath) {
 
 function update_file($filename, $newname, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	//$dbh = get_dbh();
 
 	$request = "UPDATE files SET filename = :newname, filepath = :newpath WHERE filename = :filename";
     $statement = $dbh->prepare($request);
@@ -138,7 +104,6 @@ function update_file($filename, $newname, $newpath) {
 
 function move_file($id_folders, $filename, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "UPDATE files SET id_folders = :id_folders, filepath = :newpath WHERE filename = :filename";
     $statement = $dbh->prepare($request);
@@ -147,7 +112,6 @@ function move_file($id_folders, $filename, $newpath) {
 
 function delete_file($filename) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "DELETE FROM files WHERE filename = :filename";
 	$statement = $dbh->prepare($request);
@@ -159,7 +123,6 @@ function delete_file($filename) {
 
 function get_all_folders($session_id) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT * FROM folders WHERE id_users = :id_users";
 	$statement = $dbh->prepare($request);
@@ -171,7 +134,6 @@ function get_all_folders($session_id) {
 
 function get_one_folder($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT * FROM folders WHERE foldername = :foldername";
 	$statement = $dbh->prepare($request);
@@ -183,7 +145,6 @@ function get_one_folder($foldername) {
 
 function check_files_inside_folder($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT * FROM files INNER JOIN folders ON 'files.id_folders' = 'folders.id' WHERE foldername = :foldername";
 	$statement = $dbh->prepare($request);
@@ -193,23 +154,8 @@ function check_files_inside_folder($foldername) {
 	return $result;
 }
 
-/*
-function check_folders_inside_folder($foldername) {
-	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
-
-	$request = "SELECT * FROM folders INNER JOIN folders ON files.id_folders = folders.id WHERE foldername = :foldername";
-	$statement = $dbh->prepare($request);
-	$statement->execute(['foldername' => $foldername]);
-	$result = $statement->fetchAll();
-
-	return $result;
-}
-*/
-
 function get_folderpath_by_name($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT folderpath FROM folders WHERE foldername = :foldername";
 	$statement = $dbh->prepare($request);
@@ -222,7 +168,6 @@ function get_folderpath_by_name($foldername) {
 
 function get_folderpath($id_folders) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT folderpath FROM folders WHERE id = :id";
 	$statement = $dbh->prepare($request);
@@ -235,7 +180,6 @@ function get_folderpath($id_folders) {
 
 function get_foldername($id) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT foldername FROM folders WHERE id = :id";
 	$statement = $dbh->prepare($request);
@@ -248,7 +192,6 @@ function get_foldername($id) {
 
 function get_folders_id_folders($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT id_folders FROM folders WHERE foldername = :foldername";
 	$statement = $dbh->prepare($request);
@@ -261,7 +204,6 @@ function get_folders_id_folders($foldername) {
 
 function check_session_id_folder($foldername) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "SELECT id_users FROM folders WHERE foldername = :foldername";
 	$statement = $dbh->prepare($request);
@@ -274,7 +216,6 @@ function check_session_id_folder($foldername) {
 
 function insert_folder($session_id, $foldername, $folderpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "INSERT INTO `folders`(`id_users`, `foldername`, `folderpath`, `id_folders`) VALUES (:id_users, :foldername, :folderpath, :id_folders);";
 	$statement = $dbh->prepare($request);
@@ -283,7 +224,6 @@ function insert_folder($session_id, $foldername, $folderpath) {
 
 function update_folderpath($foldername, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "UPDATE folders SET folderpath = :newpath WHERE foldername = :foldername";
     $statement = $dbh->prepare($request);
@@ -292,7 +232,6 @@ function update_folderpath($foldername, $newpath) {
 
 function update_folder($foldername, $newname) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "UPDATE folders SET foldername = :newname WHERE foldername = :foldername";
     $statement = $dbh->prepare($request);
@@ -301,7 +240,6 @@ function update_folder($foldername, $newname) {
 
 function move_folder($id_folders, $foldername, $newpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "UPDATE folders SET id_folders = :id_folders, folderpath = :newpath WHERE foldername = :foldername";
     $statement = $dbh->prepare($request);
@@ -310,7 +248,6 @@ function move_folder($id_folders, $foldername, $newpath) {
 
 function delete_folder($folderpath) {
 	$dbh = new PDO('mysql:host=localhost;dbname=filer', 'root', '');
-	// $dbh = get_database();
 
 	$request = "DELETE FROM folders WHERE folderpath = :folderpath";
 	$statement = $dbh->prepare($request);

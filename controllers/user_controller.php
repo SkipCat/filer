@@ -13,6 +13,7 @@ function register_action() {
 		}
 		else {
 			write_log('security.log', 'Error register.');
+			//echo "<p style='color:white;font-family:Calibri'>" . "Syntaxe invalide ou mauvaise confrimation de mot de passe." . "</p>";
 		}
 	}
 	require('views/register.html');
@@ -28,6 +29,7 @@ function login_action() {
 		}
 		else {
 			write_log('security.log', 'Error login.');
+			//echo "<p style='color:white;font-family:Calibri'>" . "Identifiant ou mot de passe invalide." . "</p>";
 		}
 	}
 	require('views/login.html');

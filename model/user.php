@@ -10,6 +10,7 @@ function user_check_register($data) {
 		OR $data['password'] !== $data['confirm-password']) {
 			return false;
 	}
+	// check email by regexp
 	return true;
 }
 

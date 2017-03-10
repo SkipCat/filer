@@ -79,7 +79,6 @@ function display_files() {
 
 function file_check_permission() {
 	$result = get_all_files($_SESSION['id']);
-	$_SESSION['id'] = get_session_id($_SESSION['username']);
 
 	foreach ($result as $i) {
 		$id_files = check_session_id($i['filename']);
@@ -181,8 +180,7 @@ function file_modify($data) {
     fclose($file_to_modify);
 
     // modify file in db
-    $newname = $data['input-filename'];
-	update_file($filename, $newname, $filepath);
+	update_file($filename, $filename, $filepath);
 }
 
 function file_move($data) {
